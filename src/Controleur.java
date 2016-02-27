@@ -11,8 +11,8 @@ public class  Controleur implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == vue.trace) modele.setExiste(true);
-		else if (e.getSource() == vue.efface ) modele.setExiste(false);
+		/*if (e.getSource() == vue.trace) modele.setExiste(true);
+		else if (e.getSource() == vue.efface ) modele.setExiste(false);*/
 	}
 
 }

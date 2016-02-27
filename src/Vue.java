@@ -17,7 +17,7 @@ public class Vue extends JFrame implements Observer {
 	VArdoise ardoise = new VArdoise();
 	VPhoto photo = new VPhoto("G:\\WorkspaceJava\\RaspberriPiFrame\\bin\\default.jpg");
 	VTimer timer = new VTimer();
-
+	VDate 	date = new VDate();
 
 
 
@@ -35,6 +35,7 @@ public class Vue extends JFrame implements Observer {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(200,200);
 		setPreferredSize(new Dimension(800, 480));
+		setUndecorated(true);
 		pack();
 		setVisible(true);
 	}
@@ -51,7 +52,7 @@ public class Vue extends JFrame implements Observer {
 		ardoise.changerPhoto(modele.getColor());
 		ardoise.repaint();
 		if(modele.getVueCourante() == Modele.EVueCourante.Photo){
-			System.out.println("Affichage photo");
+			System.out.println("Affichage photo " +  modele.getPosPhotoCourante() +" " + modele.getListePhotos().size());
 			photo.changerPhoto(modele.getListePhotos().get(modele.getPosPhotoCourante()));
 			
 //			this.removeAll();
@@ -62,6 +63,8 @@ public class Vue extends JFrame implements Observer {
 			this.photo.setVisible(true);
 			this.timer.validate();
 			this.timer.setVisible(false);
+			this.date.validate();
+			this.date.setVisible(false);
 			this.getContentPane().validate();
 			this.validate();
 		}
@@ -77,10 +80,29 @@ public class Vue extends JFrame implements Observer {
 			this.photo.setVisible(false);
 			this.timer.validate();
 			this.timer.setVisible(true);
+			this.date.validate();
+			this.date.setVisible(false);
 			this.getContentPane().validate();
 			this.validate();
 			
 			
+		}
+		else if(modele.getVueCourante() == Modele.EVueCourante.Date)
+		{
+			System.out.println("Affichage date");
+			date.ChangerTexte(modele.getTexteDateDate(), modele.getTexteDateHeure());
+			
+//			this.removeAll();
+			
+			add(date, BorderLayout.CENTER);
+			this.photo.validate();
+			this.photo.setVisible(false);
+			this.timer.validate();
+			this.timer.setVisible(false);
+			this.date.validate();
+			this.date.setVisible(true);
+			this.getContentPane().validate();
+			this.validate();
 		}
 	}
 	
@@ -89,4 +111,6 @@ public class Vue extends JFrame implements Observer {
 		super.paintComponents(g);
 		dessiner();
 	}
+	
+
 }
