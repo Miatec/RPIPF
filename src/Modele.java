@@ -42,6 +42,22 @@ public class Modele extends Observable {
 	String texteTimer;
 	String texteDateDate;
 	String texteDateHeure;
+	
+	
+	class Occasion{
+		public DateTime debut;
+		public String description;
+		
+		Occasion(int annee, int mois, int jour, int heure, int minute, int seconde, String description)
+		{
+			this.debut = new DateTime(annee, mois, jour, heure, minute, seconde);
+			this.description = description;
+					
+		}
+	}
+	
+	public ArrayList<Occasion> occasions;
+	private int posOccasionCourante = 0;
 
 	public String getTexteDateDate() {
 		return texteDateDate;
@@ -85,6 +101,14 @@ public class Modele extends Observable {
 		return posPhotoCourante;
 	}
 
+	public int getPosOccasionCourante() {
+		if(posOccasionCourante >= occasions.size())
+			posOccasionCourante = occasions.size() - 1;
+		else if(posOccasionCourante < 0)
+			posOccasionCourante = 0;
+		return posOccasionCourante;
+	}
+	
 	public void setPosPhotoCourante(int posPhotoCourante) {
 		this.posPhotoCourante = posPhotoCourante;
 	}
@@ -100,6 +124,13 @@ public class Modele extends Observable {
 		extensions.add(".jpg");
 		extensions.add(".png");
 		extensions.add(".PNG");
+		
+		
+		occasions= new ArrayList<Occasion>();
+		occasions.add(new Occasion(2011, 4, 12, 20, 0, 0, "depuis notre mise en couple"));
+		occasions.add(new Occasion(2011, 3, 27, 20, 0, 0, "depuis notre rencontre"));
+		occasions.add(new Occasion(2014, 9, 1, 0, 0, 0, "depuis notre emmenagement"));
+		
 
 		texteTimer = "ReCoucou";
 
@@ -178,7 +209,7 @@ public class Modele extends Observable {
 			System.out.println(posPhotoCourante);*/
 		}
 		else if (vueCourante == EVueCourante.Timer) {
-			afficherTimer();
+			afficherTimer(1);
 		}
 		
 		else if (vueCourante == EVueCourante.Date) {
@@ -204,7 +235,7 @@ public class Modele extends Observable {
 			*/
 		}
 		else if (vueCourante == EVueCourante.Timer) {
-			afficherTimer();
+			afficherTimer(-1);
 		}
 		
 		else if (vueCourante == EVueCourante.Date) {
@@ -226,7 +257,7 @@ public class Modele extends Observable {
 			setChanged();
 			notifyObservers();
 			*/
-			afficherTimer();
+			afficherTimer(0);
 		}
 		else if (vueCourante == EVueCourante.Timer) {
 			afficherDate();
@@ -249,7 +280,7 @@ public class Modele extends Observable {
 		}
 		
 		else if (vueCourante == EVueCourante.Date) {
-			afficherTimer();
+			afficherTimer(0);
 		}
 		
 	}
@@ -314,19 +345,20 @@ public class Modele extends Observable {
 		
 	}
 	
-	public String getDecompte(DateTime occasion)
+	public String getDecompte(Occasion occasion)
 	{
 		String res = "<html><center>";
 		DateTime maintenant = new DateTime();
 		
 		
-		int nbJours = Days.daysBetween(occasion, maintenant).getDays();
-		int nbSemaines = Weeks.weeksBetween(occasion, maintenant).getWeeks();
-		int nbmois = Months.monthsBetween(occasion, maintenant).getMonths();
-		int nbAnnee = Years.yearsBetween(occasion, maintenant).getYears();
-		int nbHeures = Hours.hoursBetween(occasion, maintenant).getHours();
-		int nbMinutes = Minutes.minutesBetween(occasion, maintenant).getMinutes();
-		int nbSecondes = Seconds.secondsBetween(occasion, maintenant).getSeconds();
+		
+		int nbJours = Days.daysBetween(occasion.debut, maintenant).getDays();
+		int nbSemaines = Weeks.weeksBetween(occasion.debut, maintenant).getWeeks();
+		int nbmois = Months.monthsBetween(occasion.debut, maintenant).getMonths();
+		int nbAnnee = Years.yearsBetween(occasion.debut, maintenant).getYears();
+		int nbHeures = Hours.hoursBetween(occasion.debut, maintenant).getHours();
+		int nbMinutes = Minutes.minutesBetween(occasion.debut, maintenant).getMinutes();
+		int nbSecondes = Seconds.secondsBetween(occasion.debut, maintenant).getSeconds();
 		
 		if(nbAnnee > 0) 
 			if(nbAnnee == 1) res += nbAnnee + " année ";
@@ -350,53 +382,50 @@ public class Modele extends Observable {
 			if(nbJoursReels == 1) res += nbJoursReels + " jour ";
 			else res += nbJoursReels + " jours ";
 		
+//		res += "<br />";
 		
 		int nbHeuresReeles = nbHeures % 24;
-		if(nbHeuresReeles > 0) 
-			if(nbHeuresReeles == 1) res += nbHeuresReeles + " heure ";
-			else res += nbHeuresReeles + " heures ";
-		
+//		if(nbHeuresReeles > 0) 
+//			if(nbHeuresReeles == 1) res += nbHeuresReeles + " heure ";
+//			else res += nbHeuresReeles + " heures ";
+//		
 		
 		int nbMinutesReelles = nbMinutes % 60;
-		if(nbMinutesReelles > 0) 
-			if(nbMinutesReelles == 1) res += nbMinutesReelles + " minute ";
-			else res += nbMinutesReelles + " minutes ";
+//		if(nbMinutesReelles > 0) 
+//			if(nbMinutesReelles == 1) res += nbMinutesReelles + " minute ";
+//			else res += nbMinutesReelles + " minutes ";
 		
 		int nbSecondesReelles = nbSecondes % 60;
-		if(nbMinutes > 0) 
-			if(nbSecondesReelles == 1) res += nbSecondesReelles + " seconde ";
-			else res += nbSecondesReelles + " Secondes ";
+//		if(nbMinutes > 0) 
+//			if(nbSecondesReelles == 1) res += nbSecondesReelles + " seconde ";
+//			else res += nbSecondesReelles + " Secondes ";
 		
+		
+		res += "<br />";
+		
+		res += String.format("%02d", nbHeuresReeles) + ":" +String.format("%02d", nbMinutesReelles)  + ":" +String.format("%02d", nbSecondesReelles) ;
+		
+		res += "<br />";
+		res += occasion.description;
 		res += "</center></html>";
 		
 		return res;
 	}
 	
-	public void afficherTimer()
+	public void afficherTimer(int pas)
 	{
 		System.out.println(vueCourante + " --> " + EVueCourante.Timer);
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		// get current date time with Date()
-		Date date = new Date();
-		LocalDate aujourdhui = new LocalDate();
-		Date date_origine = new Date(2011, 11, 04, 20, 0);
-		LocalDate origine = new LocalDate(date_origine);
-		
-		
-		DateTime start = new DateTime(2011, 11, 04, 20, 0, 0);
-		DateTime end = new DateTime();
-		
-		
-		Days years = Days.daysBetween(origine, aujourdhui);
-		System.out.println("Jours : " + Days.daysBetween(start, end).getDays());
-		System.out.println("Semaines : " + Weeks.weeksBetween(start, end).getWeeks());
-		System.out.println("Mois : " + Months.monthsBetween(start, end).getMonths());
-		System.out.println("Années : " + Years.yearsBetween(start, end).getYears());
-		
-		
-		System.out.println(getDecompte(start));
-		//texteTimer = dateFormat.format(date);
-		texteTimer = getDecompte(start);
+		vueCourante = EVueCourante.Timer;
+		int pos_tmp = posOccasionCourante + pas;		
+		if(pos_tmp >= occasions.size())
+			posOccasionCourante = occasions.size() - 1;
+		else if (pos_tmp >= 0)
+			posOccasionCourante = pos_tmp;
+		else
+			posOccasionCourante = occasions.size() - pas;
+
+
+		texteTimer = getDecompte( occasions.get(getPosOccasionCourante()));
 		vueCourante = EVueCourante.Timer;
 		setChanged();
 		notifyObservers();

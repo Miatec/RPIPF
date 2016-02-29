@@ -15,7 +15,7 @@ public class VTimer extends JPanel{
 	
 		duree = new JLabel("Coucou");
 		duree.setForeground(Color.white);
-		duree.setFont(new Font("Calibri", Font.BOLD, 70));
+		duree.setFont(new Font("Calibri", Font.BOLD, 50));
 		duree.setBackground(Color.BLACK);
 		duree.setHorizontalAlignment(JLabel.CENTER);
 		duree.setVerticalAlignment(JLabel.CENTER);
