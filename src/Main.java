@@ -53,8 +53,13 @@ class VoirFenetre {
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
+		// TODO Param : Créer une vue Paramètres
+		// TODO Param : activer/désactiver coloration auto de la vue date
+		// TODO Param : arreter proprement le rasberry PI
+		// TODO Param : regler luminosité
+		// TODO VuePhoto : Stocker les photos retaillées dans /run/shm/
+		
 		/*JFrame frame = new JFrame();
     		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
     		frame.setUndecorated(true);
