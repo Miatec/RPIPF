@@ -11,8 +11,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Observable;
+import java.util.TimerTask;
+import java.util.Timer;
 
 import javax.imageio.ImageIO;
+
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
@@ -24,9 +27,12 @@ import org.joda.time.Seconds;
 import org.joda.time.Weeks;
 import org.joda.time.Years;
 
-public class Modele extends Observable {
+public class Modele  extends Observable {
 	private boolean existe;
 	private Color color = Color.YELLOW;
+	
+	
+	Timer timer_secondes;
 	
 	private Date dateDebutRelation;
 
@@ -109,11 +115,18 @@ public class Modele extends Observable {
 		return posOccasionCourante;
 	}
 	
+	
+	public Occasion getOccasionCourante() {
+
+		return occasions.get(getPosOccasionCourante());
+	}
+	
 	public void setPosPhotoCourante(int posPhotoCourante) {
 		this.posPhotoCourante = posPhotoCourante;
 	}
 
 	Modele(String chemin_dossierPhoto) {
+
 
 		extensions = new ArrayList<String>();
 		extensions.add("JPG");
@@ -127,9 +140,13 @@ public class Modele extends Observable {
 		
 		
 		occasions= new ArrayList<Occasion>();
-		occasions.add(new Occasion(2011, 4, 12, 20, 0, 0, "depuis notre mise en couple"));
-		occasions.add(new Occasion(2011, 3, 27, 20, 0, 0, "depuis notre rencontre"));
-		occasions.add(new Occasion(2014, 9, 1, 0, 0, 0, "depuis notre emmenagement"));
+//		occasions.add(new Occasion(2011, 4, 12, 20, 0, 0, "depuis notre mise en couple"));
+//		occasions.add(new Occasion(2011, 3, 27, 20, 0, 0, "depuis notre rencontre"));
+//		occasions.add(new Occasion(2014, 9, 1, 0, 0, 0, "depuis notre emmenagement"));
+		
+		occasions.add(new Occasion(2013, 1, 10, 0, 0, 0, "test a"));
+		occasions.add(new Occasion(2014, 2, 20, 0, 0, 0, "test b"));
+		occasions.add(new Occasion(2015, 3, 30, 0, 0, 0, "test c"));
 		
 
 		texteTimer = "ReCoucou";
@@ -160,6 +177,16 @@ public class Modele extends Observable {
 		}
 		
 		dateDebutRelation = new Date(2011, 4, 12, 21,12);
+		
+		
+		timer_secondes = new Timer();
+		TimerTask timertask_secondes = new TimerTask() {
+			  @Override
+			  public void run() {
+				  maj_vues();				
+			  }
+			};
+		timer_secondes.scheduleAtFixedRate(timertask_secondes, 0, 1000);
 	}
 
 	String resizeImage(String path, String fileName) { // BufferedImage
@@ -425,9 +452,36 @@ public class Modele extends Observable {
 			posOccasionCourante = occasions.size() - pas;
 
 
-		texteTimer = getDecompte( occasions.get(getPosOccasionCourante()));
+		texteTimer = getDecompte( getOccasionCourante());
 		vueCourante = EVueCourante.Timer;
 		setChanged();
 		notifyObservers();
 	}
+	
+	/**
+	 * Appelé toutes les secondes par timer_secondes
+	 * Met à jour les textes contenant des dates.
+	 */
+	public void maj_vues()
+	{
+		
+		texteTimer = getDecompte( getOccasionCourante());
+		Date loc_date = new Date();
+		SimpleDateFormat loc_dateFormat;
+
+		loc_dateFormat = new SimpleDateFormat("EEEE dd MMMMM yyyy");
+		texteDateDate = loc_dateFormat.format(loc_date);
+		loc_dateFormat = new SimpleDateFormat("kk:mm:ss");
+		texteDateHeure = loc_dateFormat.format(loc_date);
+		
+		
+		
+		
+		setChanged();
+		notifyObservers();
+	}
+	
 }
+
+
+
