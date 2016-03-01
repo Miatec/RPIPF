@@ -27,29 +27,22 @@ public class CSwipe implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
 		actionEnCours = false;
-		Date d = new Date();
-
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
 		actionEnCours = false;
-
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
 		actionEnCours = false;
 
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
 		actionEnCours = true;
 		posXOrigine = e.getX();
 		posYOrigine = e.getY();
@@ -60,7 +53,7 @@ public class CSwipe implements MouseListener {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
+
 		actionEnCours = false;
 		int posY = e.getY(), posX = e.getX();
 
