@@ -35,7 +35,7 @@ public class Vue extends JFrame implements Observer {
 		add(photo, BorderLayout.CENTER);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocation(200,200);
+		setLocation(0,0);
 		setPreferredSize(new Dimension(800, 480));
 		setUndecorated(true);
 		pack();
