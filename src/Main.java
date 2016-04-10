@@ -54,18 +54,22 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		// TODO Param : Créer une vue Paramètres
-		// TODO Param : activer/désactiver coloration auto de la vue date
+		// TODO Param : Crï¿½er une vue Paramï¿½tres
+		// TODO Param : activer/dï¿½sactiver coloration auto de la vue date
 		// TODO Param : arreter proprement le rasberry PI
-		// TODO Param : regler luminosité
-		// TODO VuePhoto : Stocker les photos retaillées dans /run/shm/
+		// TODO Param : regler luminositï¿½
+		// TODO VuePhoto : Stocker les photos retaillï¿½es dans /run/shm/
 		
 		/*JFrame frame = new JFrame();
     		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
     		frame.setUndecorated(true);
     		frame.setVisible(true);*/
 
-		Modele modele = new Modele("G:\\Mes Images\\Images\\tablette");
+		File chemin_miniatures = new File(Global.dossier_miniatures);
+		chemin_miniatures.getParentFile().mkdirs();
+		chemin_miniatures.mkdir();
+		
+		Modele modele = new Modele(Global.dossier_photo_racine);
 		Vue vue = new Vue(modele);
 		Controleur controleur =  new Controleur(modele, vue);
 		CSwipe cswipe = new CSwipe(modele, vue);

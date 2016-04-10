@@ -32,6 +32,7 @@ public class VPhoto extends JPanel {
 
 		Image tmp = null;
 		try {
+			System.out.println("Nom fichier " + fileName);
 			tmp = ImageIO.read(new File(fileName));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -43,7 +44,7 @@ public class VPhoto extends JPanel {
 
 	public void changerPhoto(String chemin_photo)
 	{
-		System.out.println("Changer photo :" + chemin_photo);
+		//System.out.println("Changer photo :" + chemin_photo);
 		Image tmp = null;
 		try {
 			tmp = ImageIO.read(new File(chemin_photo));

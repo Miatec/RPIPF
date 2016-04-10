@@ -11,6 +11,7 @@ public class CSwipe implements MouseListener {
 	int posYOrigine;
 
 	long debut_click;
+	long dernier_click;
 
 	CSwipe(Modele modele, Vue vue) {
 		this.modele = modele;
@@ -19,33 +20,36 @@ public class CSwipe implements MouseListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == vue.trace)
-			modele.setExiste(true);
-		else if (e.getSource() == vue.efface)
-			modele.setExiste(false);
+		actionEnCours = false;
+		System.out.println("Action performed");
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		actionEnCours = false;
+		System.out.println("Clicked");
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		actionEnCours = false;
+		System.out.println("Entered");
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
 		actionEnCours = false;
+		System.out.println("Exited");
 
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		System.out.println("pressed");
 		actionEnCours = true;
 		posXOrigine = e.getX();
 		posYOrigine = e.getY();
+		
 
 		Date d = new Date();
 		debut_click = d.getTime();
@@ -53,6 +57,7 @@ public class CSwipe implements MouseListener {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		System.out.println("Release");
 
 		actionEnCours = false;
 		int posY = e.getY(), posX = e.getX();
@@ -63,7 +68,7 @@ public class CSwipe implements MouseListener {
 			System.out.println("Vers la droite");
 
 		SwipeDirection d = getDirectionSwipe(posXOrigine, posYOrigine, posX, posY);
-		// System.out.println("Coef Directeur : " +
+		// //System.out.println("Coef Directeur : " +
 		// getCoefficientDirecteur(posXOrigine, posYOrigine, posX, posY));
 		System.out.println("Direction globale : " + d);
 
@@ -119,7 +124,7 @@ public class CSwipe implements MouseListener {
 	};
 
 	SwipeDirection getDirectionSwipe(int xa, int ya, int xb, int yb) {
-		if ((xa - xb) > (ya - yb)) { // Sens horizontal
+		if (Math.abs(xa - xb) > Math.abs(ya - yb)) { // Sens horizontal
 
 			if (xa > xb)
 				return SwipeDirection.GAUCHE;

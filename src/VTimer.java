@@ -15,7 +15,7 @@ public class VTimer extends JPanel{
 	
 		duree = new JLabel("Coucou");
 		duree.setForeground(Color.white);
-		duree.setFont(new Font("Calibri", Font.BOLD, 50));
+		duree.setFont(Global.police_texte);
 		duree.setBackground(Color.BLACK);
 		duree.setHorizontalAlignment(JLabel.CENTER);
 		duree.setVerticalAlignment(JLabel.CENTER);
@@ -30,7 +30,7 @@ public class VTimer extends JPanel{
 	
 	void ChangerTexte(String t)
 	{
-		System.out.println("Changer texte : " +  t);
+		//System.out.println("Changer texte : " +  t);
 
 		duree.setText(t);
 //		BDuree.setText(t);
